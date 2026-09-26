@@ -1,0 +1,5 @@
+# Minimal analyzer settings for this project.
+# (No external lint package required, to keep dependencies simple.)
+analyzer:
+  exclude:
+    - "build/**"
