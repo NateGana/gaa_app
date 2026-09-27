@@ -1,19 +1,14 @@
-# G.A.A — Gaming Addict Association
+three_screen_app
+A new Flutter project.
 
-ITP107 Final Laboratory 1
+## Getting Started
 
-A three-screen Flutter application featuring:
+This project is a starting point for a Flutter application.
 
-- Login
-- Sign-Up
-- Home
-- Named routes
-- Route arguments
-- Full-name passing from Sign-Up to Home
-- Dark and Light theme
-- G.A.A gaming-inspired UI
+A few resources to get you started if this is your first Flutter project:
 
-## App Flow
+- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
+- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-Login → Sign-Up → Home → Logout
-
+For help getting started with Flutter development, view the [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on mobile development, and a full API reference.
