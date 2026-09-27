@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_theme.dart';
 import '../widgets/brand_logo.dart';
+import '../widgets/theme_toggle_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,9 +13,10 @@ class HomeScreen extends StatelessWidget {
     // (null on the direct Login path, so we fall back to a generic greeting).
     final fullName = ModalRoute.of(context)?.settings.arguments as String?;
     final greeting = (fullName != null && fullName.isNotEmpty) ? 'Welcome, $fullName!' : 'Welcome!';
+    final palette = AppPalette.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: palette.scaffoldBg,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
@@ -32,59 +34,82 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const BrandLogo(),
-                    OutlinedButton(
-                      onPressed: () {
-                        // Replace route so the user cannot return to Home after logout.
-                        Navigator.pushReplacementNamed(context, AppRoutes.login);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.navy,
-                        side: const BorderSide(color: AppColors.border),
-                        minimumSize: const Size(0, 36),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                      ),
-                      child: const Text('Logout'),
+                    const BrandLogo(compact: true),
+                    Row(
+                      children: [
+                        const ThemeToggleButton(),
+                        const SizedBox(width: 10),
+                        OutlinedButton(
+                          onPressed: () {
+                            // Replace route so the user cannot return to Home after logout.
+                            Navigator.pushReplacementNamed(context, AppRoutes.login);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: palette.textPrimary,
+                            side: BorderSide(color: palette.border),
+                            minimumSize: const Size(0, 36),
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                          ),
+                          child: const Text('Logout'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
 
-                // ---- Warm welcome card ----
+                // ---- Dashboard hero card ----
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(22, 24, 22, 26),
+                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [AppColors.peach, AppColors.beige],
+                      colors: [palette.heroStart, palette.heroEnd],
                     ),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      const Text(
-                        'WELCOME',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.3,
-                          color: AppColors.navy,
+                      Positioned(
+                        bottom: -30,
+                        right: -20,
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: palette.cyan.withOpacity(0.14),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        greeting,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.navy),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        "We're glad to have you here.",
-                        style: TextStyle(fontSize: 14.5, color: AppColors.navy.withOpacity(0.65), height: 1.4),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'DASHBOARD',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.3,
+                              color: palette.orangeSoft,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            greeting,
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Your G.A.A dashboard is ready.',
+                            style: TextStyle(fontSize: 14.5, color: palette.cyanSoft.withOpacity(0.85), height: 1.4),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -95,9 +120,9 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    color: AppColors.successBg,
+                    color: palette.surface,
                     borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: AppColors.successBorder),
+                    border: Border.all(color: palette.border),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,8 +130,8 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         width: 36,
                         height: 36,
-                        decoration: const BoxDecoration(
-                          color: AppColors.success,
+                        decoration: BoxDecoration(
+                          color: palette.cyan,
                           shape: BoxShape.circle,
                         ),
                         alignment: Alignment.center,
@@ -117,14 +142,14 @@ class HomeScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Account Created Successfully',
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.navy),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: palette.textPrimary),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               'Your account is ready. You can now explore the application.',
-                              style: TextStyle(fontSize: 13.5, color: AppColors.textMuted, height: 1.4),
+                              style: TextStyle(fontSize: 13.5, color: palette.textMuted, height: 1.4),
                             ),
                           ],
                         ),
@@ -133,9 +158,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 28),
-                const Text(
+                Text(
                   'Quick Overview',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.navy),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: palette.textPrimary),
                 ),
                 const SizedBox(height: 12),
                 IntrinsicHeight(
@@ -190,12 +215,13 @@ class _OverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppPalette.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,16 +230,16 @@ class _OverviewCard extends StatelessWidget {
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-              color: AppColors.inputFill,
+              color: palette.surfaceAlt,
               borderRadius: BorderRadius.circular(9),
             ),
             alignment: Alignment.center,
-            child: Icon(icon, size: 16, color: AppColors.primary),
+            child: Icon(icon, size: 16, color: palette.cyan),
           ),
           const SizedBox(height: 12),
-          Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.navy)),
+          Text(title, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: palette.textPrimary)),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 10, color: AppColors.textMuted, height: 1.3)),
+          Text(value, style: TextStyle(fontSize: 10, color: palette.textMuted, height: 1.3)),
         ],
       ),
     );

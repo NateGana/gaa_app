@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_theme.dart';
+import '../widgets/brand_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import '../widgets/theme_toggle_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -40,8 +42,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppPalette.of(context);
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: palette.scaffoldBg,
       body: SafeArea(
         child: SingleChildScrollView(
           child: TweenAnimationBuilder<double>(
@@ -59,43 +62,77 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(24, 18, 24, 26),
-                  decoration: const BoxDecoration(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [AppColors.navy, AppColors.primary],
+                      colors: [palette.heroStart, palette.heroEnd],
                     ),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton.icon(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.arrow_back, size: 16, color: Colors.white),
-                          label: const Text('Back to Login', style: TextStyle(color: Colors.white)),
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: const Size(0, 0),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      Positioned(
+                        top: -30,
+                        right: -30,
+                        child: Container(
+                          width: 130,
+                          height: 130,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: palette.orange.withOpacity(0.12),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 18),
-                      Text(
-                        'Create Account',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Create your account to continue',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.mist),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton.icon(
+                                onPressed: () => Navigator.pop(context),
+                                icon: const Icon(Icons.arrow_back, size: 16, color: Colors.white),
+                                label: const Text('Back to Login', style: TextStyle(color: Colors.white)),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 0),
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              const ThemeToggleButton(onDarkBackground: true),
+                            ],
+                          ),
+                          const SizedBox(height: 18),
+                          const BrandLogo(light: true, compact: true),
+                          const SizedBox(height: 18),
+                          Text(
+                            'NEW RECRUIT',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2.2,
+                              color: palette.cyanSoft,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Join the Squad',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Create your G.A.A account to get started',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: palette.cyanSoft.withOpacity(0.85),
+                                ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -151,7 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: AppColors.textMuted,
+                              color: palette.textMuted,
                             ),
                             onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                           ),
@@ -176,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscureConfirm ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: AppColors.textMuted,
+                              color: palette.textMuted,
                             ),
                             onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
                           ),
@@ -195,7 +232,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: EdgeInsets.zero,
                                   minimumSize: const Size(0, 0),
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  foregroundColor: AppColors.primary,
+                                  foregroundColor: palette.cyan,
                                 ),
                                 child: const Text('Login', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                               ),

@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/brand_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import '../widgets/theme_toggle_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,8 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppPalette.of(context);
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: palette.scaffoldBg,
       body: SafeArea(
         child: SingleChildScrollView(
           child: TweenAnimationBuilder<double>(
@@ -53,31 +55,67 @@ class _LoginScreenState extends State<LoginScreen> {
                 // ---- Hero panel ----
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(28, 40, 28, 36),
-                  decoration: const BoxDecoration(
+                  padding: const EdgeInsets.fromLTRB(28, 24, 28, 40),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [AppColors.navy, AppColors.primary],
+                      colors: [palette.heroStart, palette.heroEnd],
                     ),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      const BrandLogo(light: true),
-                      const SizedBox(height: 32),
-                      Text(
-                        'Welcome Back',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                      // Subtle glow accent — kept understated on purpose.
+                      Positioned(
+                        top: -40,
+                        right: -30,
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: palette.orange.withOpacity(0.12),
+                          ),
+                        ),
                       ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Sign in to continue',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.mist),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const BrandLogo(light: true),
+                              const ThemeToggleButton(onDarkBackground: true),
+                            ],
+                          ),
+                          const SizedBox(height: 34),
+                          Text(
+                            'GAMING ADDICT ASSOCIATION',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2.2,
+                              color: palette.cyanSoft,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Welcome Back, Player',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Sign in to continue your session',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: palette.cyanSoft.withOpacity(0.85),
+                                ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -120,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: AppColors.textMuted,
+                              color: palette.textMuted,
                             ),
                             onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                           ),
@@ -139,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: EdgeInsets.zero,
                                   minimumSize: const Size(0, 0),
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  foregroundColor: AppColors.primary,
+                                  foregroundColor: palette.cyan,
                                 ),
                                 child: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                               ),

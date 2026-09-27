@@ -26,15 +26,16 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppPalette.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.navy,
+            color: palette.textPrimary,
           ),
         ),
         const SizedBox(height: 7),
@@ -42,10 +43,10 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
-          style: const TextStyle(fontSize: 15, color: AppColors.navy),
+          style: TextStyle(fontSize: 15, color: palette.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: Icon(icon, size: 20, color: AppColors.textMuted),
+            prefixIcon: Icon(icon, size: 20, color: palette.textMuted),
             suffixIcon: suffixIcon,
           ),
           validator: validator,
