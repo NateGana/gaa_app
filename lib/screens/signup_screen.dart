@@ -41,126 +41,169 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
-          child: Form(
-            key: _formKey,
+          child: TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: 0.0, end: 1.0),
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.easeOut,
+            builder: (context, value, child) => Opacity(
+              opacity: value,
+              child: Transform.translate(offset: Offset(0, (1 - value) * 12), child: child),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back, size: 16),
-                    label: const Text('Back to Login'),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: const Size(0, 0),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      foregroundColor: AppColors.textMuted,
-                      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                // ---- Hero panel (compact version) ----
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(24, 18, 24, 26),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [AppColors.navy, AppColors.primary],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text('Create Account', style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 6),
-                Text('Create your account to continue', style: Theme.of(context).textTheme.bodyMedium),
-                const SizedBox(height: 28),
-                CustomTextField(
-                  label: 'Full Name',
-                  hint: 'Enter your full name',
-                  icon: Icons.person_outline,
-                  controller: _nameController,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Full name is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: 'Email',
-                  hint: 'Enter your email',
-                  icon: Icons.mail_outline,
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Email is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: 'Password',
-                  hint: 'Create a password',
-                  icon: Icons.lock_outline,
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Password is required';
-                    }
-                    return null;
-                  },
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                      color: AppColors.textMuted,
-                    ),
-                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: 'Confirm Password',
-                  hint: 'Confirm your password',
-                  icon: Icons.lock_outline,
-                  controller: _confirmController,
-                  obscureText: _obscureConfirm,
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirm ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                      color: AppColors.textMuted,
-                    ),
-                    onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
-                  ),
-                ),
-                const SizedBox(height: 22),
-                PrimaryButton(label: 'Create Account', onPressed: _handleSignUp),
-                const SizedBox(height: 22),
-                Center(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Already have an account? ', style: Theme.of(context).textTheme.bodyMedium),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          minimumSize: const Size(0, 0),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          foregroundColor: AppColors.primary,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.arrow_back, size: 16, color: Colors.white),
+                          label: const Text('Back to Login', style: TextStyle(color: Colors.white)),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(0, 0),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                          ),
                         ),
-                        child: const Text('Login', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        'Create Account',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Create your account to continue',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.mist),
                       ),
                     ],
+                  ),
+                ),
+                // ---- Form ----
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 26, 24, 24),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        CustomTextField(
+                          label: 'Full Name',
+                          hint: 'Enter your full name',
+                          icon: Icons.person_outline,
+                          controller: _nameController,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Full name is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          label: 'Email',
+                          hint: 'Enter your email',
+                          icon: Icons.mail_outline,
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          label: 'Password',
+                          hint: 'Create a password',
+                          icon: Icons.lock_outline,
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            return null;
+                          },
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                              color: AppColors.textMuted,
+                            ),
+                            onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          label: 'Confirm Password',
+                          hint: 'Confirm your password',
+                          icon: Icons.lock_outline,
+                          controller: _confirmController,
+                          obscureText: _obscureConfirm,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please confirm your password';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirm ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                              color: AppColors.textMuted,
+                            ),
+                            onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        PrimaryButton(label: 'Create Account', onPressed: _handleSignUp),
+                        const SizedBox(height: 22),
+                        Center(
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Text('Already have an account? ', style: Theme.of(context).textTheme.bodyMedium),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 0),
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  foregroundColor: AppColors.primary,
+                                ),
+                                child: const Text('Login', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

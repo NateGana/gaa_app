@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 
 /// Shared color tokens used across Login, Sign-Up, and Home.
+/// Palette: deep teal + dark ink, with warm beige/peach accents.
 class AppColors {
-  static const Color primary = Color(0xFF2563EB);
-  static const Color navy = Color(0xFF0F172A);
-  static const Color background = Color(0xFFF8FAFC);
-  static const Color textMuted = Color(0xFF64748B);
-  static const Color border = Color(0xFFE2E8F0);
-  static const Color success = Color(0xFF16A34A);
-  static const Color successBg = Color(0xFFF0FDF4);
-  static const Color successBorder = Color(0xFFDCFCE7);
+  static const Color primary = Color(0xFF116466);      // deep teal — buttons, links, active states
+  static const Color primaryDark = Color(0xFF0B4547);   // darker teal — gradients, pressed states
+  static const Color navy = Color(0xFF2C3531);          // dark ink — headings, dark hero background
+  static const Color beige = Color(0xFFD9B08C);         // warm accent
+  static const Color peach = Color(0xFFFFCB9A);         // light warm accent
+  static const Color mist = Color(0xFFD1E2E2);          // light cool neutral
+  static const Color background = Color(0xFFF6F8F7);    // app background
+  static const Color inputFill = Color(0xFFEDF3F2);     // soft filled input background
+  static const Color textMuted = Color(0xFF5C6B67);     // secondary text
+  static const Color border = Color(0xFFE1EAE8);        // soft border
+  static const Color success = Color(0xFF2E7D5B);
+  static const Color successBg = Color(0xFFEFF6F1);
+  static const Color successBorder = Color(0xFFCBE3D4);
 }
 
 /// One shared theme so all three screens look consistent.
@@ -24,7 +30,7 @@ class AppTheme {
       ),
       textTheme: const TextTheme(
         headlineMedium: TextStyle(
-          fontSize: 26,
+          fontSize: 27,
           fontWeight: FontWeight.w800,
           color: AppColors.navy,
           letterSpacing: -0.3,
@@ -32,33 +38,33 @@ class AppTheme {
         bodyMedium: TextStyle(
           fontSize: 14.5,
           color: AppColors.textMuted,
-          height: 1.4,
+          height: 1.45,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.inputFill,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
+        hintStyle: const TextStyle(color: Color(0xFF8FA29D), fontSize: 15),
         errorStyle: const TextStyle(fontSize: 12),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border, width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border, width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
         ),
       ),
@@ -66,9 +72,10 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(52),
-          elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          minimumSize: const Size.fromHeight(54),
+          elevation: 3,
+          shadowColor: AppColors.primary.withOpacity(0.35),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           textStyle: const TextStyle(fontSize: 15.5, fontWeight: FontWeight.w600),
         ),
       ),
