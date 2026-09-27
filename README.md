@@ -17,7 +17,3 @@ A three-screen Flutter application featuring:
 
 Login → Sign-Up → Home → Logout
 
-## Technologies
-
-- Flutter
-- Dart
